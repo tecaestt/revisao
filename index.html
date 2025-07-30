@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template PDF - Método Bloco de Revisões</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 15mm;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 11pt;
+            line-height: 1.3;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 18pt;
+            margin: 0;
+            color: #667eea;
+        }
+        
+        .header p {
+            margin: 5px 0 0 0;
+            font-size: 10pt;
+            color: #666;
+        }
+        
+        .metodo-box {
+            background-color: #f8f9fa;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .metodo-box h3 {
+            margin-top: 0;
+            color: #667eea;
+            font-size: 14pt;
+        }
+        
+        .bloco {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        .bloco-header {
+            background-color: #667eea;
+            color: white;
+            padding: 8px 15px;
+            font-weight: bold;
+            font-size: 12pt;
+        }
+        
+        .bloco-content {
+            padding: 10px 15px;
+        }
+        
+        .linha-estudo {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px dotted #ddd;
+        }
+        
+        .linha-estudo:last-child {
+            border-bottom: none;
+        }
+        
+        .checkbox {
+            width: 15px;
+            height: 15px;
+            border: 2px solid #667eea;
+            margin-right: 10px;
+            display: inline-block;
+        }
+        
+        .conteudo {
+            flex: 1;
+            margin-right: 10px;
+        }
+        
+        .data-input {
+            width: 70px;
+            height: 20px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+        
+        .obs-input {
+            width: 120px;
+            height: 20px;
+            border: 1px solid #ccc;
+        }
+        
+        .materia-input {
+            width: 150px;
+            height: 20px;
+            border: 1px solid #ccc;
+            margin-left: 5px;
+        }
+        
+        .add-bloco-btn {
+            background-color: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 11pt;
+            margin: 20px auto;
+            display: block;
+        }
+        
+        .add-bloco-btn:hover {
+            background-color: #5a6fd8;
+        }
+        
+        @media print {
+            .add-bloco-btn {
+                display: none !important;
+            }
+        }
+        
+        .revisao-completa {
+            background-color: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .instrucoes {
+            font-size: 9pt;
+            background-color: #e8f4fd;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .instrucoes h4 {
+            margin-top: 0;
+            color: #667eea;
+        }
+        
+        .materia-header {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 8px;
+            margin: 15px 0 5px 0;
+            font-weight: bold;
+            text-align: center;
+            font-size: 12pt;
+        }
+        
+        .exemplo-box {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 15px 0;
+            font-size: 9pt;
+        }
+        
+        .page-break {
+            page-break-before: always;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 9pt;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 5px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📚 MÉTODO BLOCO DE REVISÕES</h1>
+        <p>Template de Controle para Concurseiras | Por Estéffani</p>
+    </div>
+
+    <div class="instrucoes">
+        <h4>🎯 COMO FUNCIONA O MÉTODO BLOCO:</h4>
+        <strong>PASSO 1:</strong> Estude 3 conteúdos seguidos<br>
+        <strong>PASSO 2:</strong> Faça revisão completa dos 3<br>
+        <strong>PASSO 3:</strong> Estude os próximos 3<br>
+        <strong>PASSO 4:</strong> Revise os 3 novos + revisão geral dos 6<br>
+        <strong>REGRA:</strong> Sempre revisar rapidamente antes de estudar o próximo
+    </div>
+
+    <div class="exemplo-box">
+        <strong>💡 EXEMPLO PRÁTICO:</strong><br>
+        Estuda Aula 1 → Revisa Aula 1 + Estuda Aula 2 → Revisa Aula 2 + Estuda Aula 3 → <strong>REVISÃO COMPLETA (1,2,3)</strong><br>
+        Estuda Aula 4 → Revisa Aula 4 + Estuda Aula 5 → Revisa Aula 5 + Estuda Aula 6 → <strong>REVISÃO COMPLETA (4,5,6)</strong><br>
+        <strong>REVISÃO GERAL (1,2,3,4,5,6)</strong>
+    </div>
+
+    <!-- BLOCO 1 -->
+    <div class="bloco">
+        <div class="bloco-header">BLOCO 1 - PRIMEIROS 3 CONTEÚDOS</div>
+        <div class="bloco-content">
+            <div class="linha-estudo">
+                <span class="checkbox"></span>
+                <div class="conteudo"><strong>DIA 1:</strong> Estuda <span class="materia-input"></span> </div>
+                <span>Data: </span><span class="data-input"></span>
+                <span>Obs: </span><span class="obs-input"></span>
+            </div>
+            
+            <div class="linha-estudo">
+                <span class="checkbox"></span>
+                <div class="conteudo"><strong>DIA 2:</strong> Revisa <span style="width: 100px; height: 20px; border: 1px solid #ccc; display: inline-block;"></span> + Estuda <span style="width: 100px; height: 20px; border: 1px solid #ccc; display: inline-block;"></span></div>
+                <span>Data: </span><span class="data-input"></span>
+                <span>Obs: </span><span class="obs-input"></span>
+            </div>
+            
+            <div class="linha-estudo">
+                <span class="checkbox"></span>
+                <div class="conteudo"><strong>DIA 3:</strong> Revisa <span style="width: 100px; height: 20px; border: 1px solid #ccc; display: inline-block;"></span> + Estuda <span style="width: 100px; height: 20px; border: 1px solid #ccc; display: inline-block;"></span></div>
+                <span>Data: </span><span class="data-input"></span>
+                <span>Obs: </span><span class="obs-input"></span>
+            </div>
+            
+            <div class="revisao-completa">
+                <span class="checkbox"></span> <strong>REVISÃO COMPLETA DOS 3 CONTEÚDOS</strong> | Data: ______
+            </div>
+        </div>
+    </div>
+
+    <!-- BLOCO 2 -->
+    <div class="bloco">
+        <div class="bloco-header">BLOCO 2 - PRÓXIMOS 3 CONTEÚDOS</div>
+        <div class="bloco-content">
+            <div class="linha-estudo">
+                <span class="checkbox"></span>
+                <div class="conteudo"><strong>DIA 4:</strong> Estuda <span class="materia-input"></span> </div>
+                <span>Data: </span><span class="data-input"></span>
+                <span>Obs: </span><span class="obs-input"></span>
+            </div>
+            
+            <div class="linha-estudo">
+                <span class="checkbox"></span>
+                <div class="conteudo"><strong>DIA 5:</strong> Revisa <span style="width: 100px; height: 20px; border: 1px solid #ccc; display: inline-block;"></span> + Estuda <span style="width: 100px; height: 20px; border: 1px solid #ccc; display: inline-block;"></span></div>
+                <span>Data: </span><span class="data-input"></span>
+                <span>Obs: </span><span class="obs-input"></span>
+            </div>
+            
+            <div class="linha-estudo">
+                <span class="checkbox"></span>
+                <div class="conteudo"><strong>DIA 6:</strong> Revisa <span style="width: 100px; height: 20px; border: 1px solid #ccc; display: inline-block;"></span> + Estuda <span style="width: 100px; height: 20px; border: 1px solid #ccc; display: inline-block;"></span></div>
+                <span>Data: </span><span class="data-input"></span>
+                <span>Obs: </span><span class="obs-input"></span>
+            </div>
+            
+            <div class="revisao-completa">
+                <span class="checkbox"></span> <strong>REVISÃO COMPLETA DOS 3 CONTEÚDOS (4,5,6)</strong> | Data: ______
+            </div>
+            
+            <div class="revisao-completa" style="background-color: #d1ecf1; border-color: #bee5eb;">
+                <span class="checkbox"></span> <strong>REVISÃO GERAL DE TODOS OS 6 CONTEÚDOS</strong> | Data: ______
+            </div>
+        </div>
+    </div>
+
+    <!-- BLOCO 3 -->
+    <div class="bloco">
+        <div class="bloco-header">BLOCO 3 - PRÓXIMOS 3 CONTEÚDOS</div>
+        <div class="bloco-content">
+            <div class="linha-estudo">
+                <span class="checkbox"></span>
+                <div class="conteudo"><strong>DIA 7:</strong> Estuda <span class="materia-input"></span> </div>
+                <span>Data: </span><span class="data-input"></span>
+                <span>Obs: </span><span class="obs-input"></span>
+            </div>
+            
+            <div class="linha-estudo">
+                <span class="checkbox"></span>
+                <div class="conteudo"><strong>DIA 8:</strong> Revisa <span style="width: 100px; height: 20px; border: 1px solid #ccc; display: inline-block;"></span> + Estuda <span style="width: 100px; height: 20px; border: 1px solid #ccc; display: inline-block;"></span></div>
+                <span>Data: </span><span class="data-input"></span>
+                <span>Obs: </span><span class="obs-input"></span>
+            </div>
+            
+            <div class="linha-estudo">
+                <span class="checkbox"></span>
+                <div class="conteudo"><strong>DIA 9:</strong> Revisa <span style="width: 100px; height: 20px; border: 1px solid #ccc; display: inline-block;"></span> + Estuda <span style="width: 100px; height: 20px; border: 1px solid #ccc; display: inline-block;"></span></div>
+                <span>Data: </span><span class="data-input"></span>
+                <span>Obs: </span><span class="obs-input"></span>
+            </div>
+            
+            <div class="revisao-completa">
+                <span class="checkbox"></span> <strong>REVISÃO COMPLETA DOS 3 CONTEÚDOS (7,8,9)</strong> | Data: ______
+            </div>
+            
+            <div class="revisao-completa" style="background-color: #d1ecf1; border-color: #bee5eb;">
+                <span class="checkbox"></span> <strong>REVISÃO GERAL DE TODOS OS 9 CONTEÚDOS</strong> | Data: ______
+            </div>
+        </div>
+    </div>
+
+    <!-- BLOCO 4 -->
+    <div class="bloco">
+        <div class="bloco-header">BLOCO 4 - PRÓXIMOS 3 CONTEÚDOS</div>
+        <div class="bloco-content">
+            <div class="linha-estudo">
+                <span class="checkbox"></span>
+                <div class="conteudo"><strong>DIA 10:</strong> Estuda <span class="materia-input"></span> </div>
+                <span>Data: </span><span class="data-input"></span>
+                <span>Obs: </span><span class="obs-input"></span>
+            </div>
+            
+            <div class="linha-estudo">
+                <span class="checkbox"></span>
+                <div class="conteudo"><strong>DIA 11:</strong> Revisa <span style="width: 120px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span> + Estuda <span style="width: 120px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span></div>
+                <span>Data: </span><span class="data-input"></span>
+                <span>Obs: </span><span class="obs-input"></span>
+            </div>
+            
+            <div class="linha-estudo">
+                <span class="checkbox"></span>
+                <div class="conteudo"><strong>DIA 12:</strong> Revisa <span style="width: 120px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span> + Estuda <span style="width: 120px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span></div>
+                <span>Data: </span><span class="data-input"></span>
+                <span>Obs: </span><span class="obs-input"></span>
+            </div>
+            
+            <div class="revisao-completa">
+                <span class="checkbox"></span> <strong>REVISÃO COMPLETA DOS 3 CONTEÚDOS (10,11,12)</strong> | Data: ______
+            </div>
+            
+            <div class="revisao-completa" style="background-color: #d1ecf1; border-color: #bee5eb;">
+                <span class="checkbox"></span> <strong>REVISÃO GERAL DE TODOS OS 12 CONTEÚDOS</strong> | Data: ______
+            </div>
+        </div>
+    </div>
+
+    <!-- BLOCO 5 -->
+    <div class="bloco">
+        <div class="bloco-header">BLOCO 5 - PRÓXIMOS 3 CONTEÚDOS</div>
+        <div class="bloco-content">
+            <div class="linha-estudo">
+                <span class="checkbox"></span>
+                <div class="conteudo"><strong>DIA 13:</strong> Estuda <span class="materia-input"></span> </div>
+                <span>Data: </span><span class="data-input"></span>
+                <span>Obs: </span><span class="obs-input"></span>
+            </div>
+            
+            <div class="linha-estudo">
+                <span class="checkbox"></span>
+                <div class="conteudo"><strong>DIA 14:</strong> Revisa <span style="width: 120px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span> + Estuda <span style="width: 120px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span></div>
+                <span>Data: </span><span class="data-input"></span>
+                <span>Obs: </span><span class="obs-input"></span>
+            </div>
+            
+            <div class="linha-estudo">
+                <span class="checkbox"></span>
+                <div class="conteudo"><strong>DIA 15:</strong> Revisa <span style="width: 120px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span> + Estuda <span style="width: 120px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span></div>
+                <span>Data: </span><span class="data-input"></span>
+                <span>Obs: </span><span class="obs-input"></span>
+            </div>
+            
+            <div class="revisao-completa">
+                <span class="checkbox"></span> <strong>REVISÃO COMPLETA DOS 3 CONTEÚDOS (13,14,15)</strong> | Data: ______
+            </div>
+            
+            <div class="revisao-completa" style="background-color: #d1ecf1; border-color: #bee5eb;">
+                <span class="checkbox"></span> <strong>REVISÃO GERAL DE TODOS OS 15 CONTEÚDOS</strong> | Data: ______
+            </div>
+        </div>
+    </div>
+
+    <!-- BLOCO 6 -->
+    <div class="bloco">
+        <div class="bloco-header">BLOCO 6 - PRÓXIMOS 3 CONTEÚDOS</div>
+        <div class="bloco-content">
+            <div class="linha-estudo">
+                <span class="checkbox"></span>
+                <div class="conteudo"><strong>DIA 16:</strong> Estuda <span class="materia-input"></span> </div>
+                <span>Data: </span><span class="data-input"></span>
+                <span>Obs: </span><span class="obs-input"></span>
+            </div>
+            
+            <div class="linha-estudo">
+                <span class="checkbox"></span>
+                <div class="conteudo"><strong>DIA 17:</strong> Revisa <span style="width: 120px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span> + Estuda <span style="width: 120px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span></div>
+                <span>Data: </span><span class="data-input"></span>
+                <span>Obs: </span><span class="obs-input"></span>
+            </div>
+            
+            <div class="linha-estudo">
+                <span class="checkbox"></span>
+                <div class="conteudo"><strong>DIA 18:</strong> Revisa <span style="width: 120px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span> + Estuda <span style="width: 120px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span></div>
+                <span>Data: </span><span class="data-input"></span>
+                <span>Obs: </span><span class="obs-input"></span>
+            </div>
+            
+            <div class="revisao-completa">
+                <span class="checkbox"></span> <strong>REVISÃO COMPLETA DOS 3 CONTEÚDOS (16,17,18)</strong> | Data: ______
+            </div>
+            
+            <div class="revisao-completa" style="background-color: #d1ecf1; border-color: #bee5eb;">
+                <span class="checkbox"></span> <strong>REVISÃO GERAL DE TODOS OS 18 CONTEÚDOS</strong> | Data: ______
+            </div>
+        </div>
+    </div>
+
+    <button class="add-bloco-btn" onclick="adicionarBloco()">➕ ADICIONAR MAIS BLOCOS</button>
+
+    <script>
+        let blocoAtual = 7;
+        let diaAtual = 19;
+
+        function adicionarBloco() {
+            const container = document.querySelector('.add-bloco-btn').parentNode;
+            const novoBloco = document.createElement('div');
+            novoBloco.className = 'bloco';
+            
+            novoBloco.innerHTML = `
+                <div class="bloco-header">BLOCO ${blocoAtual} - PRÓXIMOS 3 CONTEÚDOS</div>
+                <div class="bloco-content">
+                    <div class="linha-estudo">
+                        <span class="checkbox"></span>
+                        <div class="conteudo"><strong>DIA ${diaAtual}:</strong> Estuda <span class="materia-input"></span> </div>
+                        <span>Data: </span><span class="data-input"></span>
+                        <span>Obs: </span><span class="obs-input"></span>
+                    </div>
+                    
+                    <div class="linha-estudo">
+                        <span class="checkbox"></span>
+                        <div class="conteudo"><strong>DIA ${diaAtual + 1}:</strong> Revisa <span style="width: 140px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span> + Estuda <span style="width: 140px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span></div>
+                        <span>Data: </span><span class="data-input"></span>
+                        <span>Obs: </span><span class="obs-input"></span>
+                    </div>
+                    
+                    <div class="linha-estudo">
+                        <span class="checkbox"></span>
+                        <div class="conteudo"><strong>DIA ${diaAtual + 2}:</strong> Revisa <span style="width: 140px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span> + Estuda <span style="width: 140px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span></div>
+                        <span>Data: </span><span class="data-input"></span>
+                        <span>Obs: </span><span class="obs-input"></span>
+                    </div>
+                    
+                    <div class="revisao-completa">
+                        <span class="checkbox"></span> <strong>REVISÃO COMPLETA DOS 3 CONTEÚDOS (${diaAtual},${diaAtual + 1},${diaAtual + 2})</strong> | Data: ______
+                    </div>
+                    
+                    <div class="revisao-completa" style="background-color: #d1ecf1; border-color: #bee5eb;">
+                        <span class="checkbox"></span> <strong>REVISÃO GERAL DE TODOS OS ${diaAtual + 2} CONTEÚDOS</strong> | Data: ______
+                    </div>
+                </div>
+            `;
+            
+            container.insertBefore(novoBloco, document.querySelector('.add-bloco-btn'));
+            
+            blocoAtual++;
+            diaAtual += 3;
+        }
+    </script>
+
+    <div class="page-break"></div>
+
+    <div class="materia-header">CONTROLE GERAL - TODAS AS MATÉRIAS</div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>MATÉRIA</th>
+                <th>BLOCO ATUAL</th>
+                <th>ÚLTIMO CONTEÚDO ESTUDADO</th>
+                <th>PRÓXIMA AÇÃO</th>
+                <th>DATA</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span style="width: 120px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span></td>
+                <td>Bloco ___</td>
+                <td><span style="width: 250px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span></td>
+                <td><span style="width: 250px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span></td>
+                <td>_______</td>
+            </tr>
+            <tr>
+                <td><span style="width: 120px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span></td>
+                <td>Bloco ___</td>
+                <td><span style="width: 250px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span></td>
+                <td><span style="width: 250px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span></td>
+                <td>_______</td>
+            </tr>
+            <tr>
+                <td><span style="width: 120px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span></td>
+                <td>Bloco ___</td>
+                <td><span style="width: 250px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span></td>
+                <td><span style="width: 250px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span></td>
+                <td>_______</td>
+            </tr>
+            <tr>
+                <td><span style="width: 120px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span></td>
+                <td>Bloco ___</td>
+                <td><span style="width: 250px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span></td>
+                <td><span style="width: 250px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span></td>
+                <td>_______</td>
+            </tr>
+            <tr>
+                <td><span style="width: 120px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span></td>
+                <td>Bloco ___</td>
+                <td><span style="width: 250px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span></td>
+                <td><span style="width: 250px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span></td>
+                <td>_______</td>
+            </tr>
+            <tr>
+                <td><span style="width: 120px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span></td>
+                <td>Bloco ___</td>
+                <td><span style="width: 250px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span></td>
+                <td><span style="width: 250px; height: 25px; border: 1px solid #ccc; display: inline-block;"></span></td>
+                <td>_______</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div style="margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 5px;">
+        <h4 style="margin-top: 0; color: #667eea;">💪 DICAS PARA CONCURSEIROS:</h4>
+        <ul style="font-size: 9pt; margin: 0;">
+            <li><strong>Revisão rápida:</strong> 10-15 minutos é suficiente</li>
+            <li><strong>Atrasou?</strong> Não tem problema, só continua de onde parou</li>
+            <li><strong>Use cores:</strong> Marque com caneta colorida suas dificuldades</li>
+            <li><strong>Flexibilidade:</strong> Adapte os dias conforme sua rotina</li>
+            <li><strong>Domingo:</strong> Ideal para revisões gerais ou descanso total</li>
+        </ul>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px; font-size: 8pt; color: #666;">
+        <p><strong>Template criado por Estéffani | Instagram: @estefiniconcursos</strong></p>
+        <p>"Comece com o que você tem. Não espere estar preparada. Você não precisa ser gênio, só precisa ser constante."</p>
+    </div>
+</body>
+</html>
